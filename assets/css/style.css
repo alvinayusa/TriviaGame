@@ -1,12 +1,20 @@
 body {
     background-image: url(../images/background3.png);
+
 }
 
 h1{
     color: black;
 }
 
-main{
+/* main{
     background-image: url(../images/main.jpg);
 }
+ */
 
+ .card{
+     margin-top: 10%;
+     background-color: #FFFF9E;
+     opacity: .8;
+     border: 5px solid black;
+ }
