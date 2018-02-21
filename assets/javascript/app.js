@@ -79,13 +79,13 @@ var unanswered = 0
 
 // Display my question in the question section.
 // Display the list of answers on the screen using for loop.
-for (var i = 0; i < questions[currentQuestion].choices.length; i++){
+for (var i = 0; i < questions.length; i++){
     $("#questionSection").html(questions[i].question)
 
-    for (var j = 0; j < 4; j++){
-        $("#option-" + i).append(questions[i].choices[j])
+    // for (var j = 0; j < 4; j++){
+    //     $("#option-" + i).append(questions[i].choices[j])
         
-    }
+    // }
 
 console.log(questions[i])
 }
