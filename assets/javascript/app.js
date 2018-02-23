@@ -75,26 +75,137 @@ $(document).ready(function () {
     var play = {
         correct: 0,
         incorrect: 0,
-        counter: 120,
+        counter: 2000,
+        
+        // displays the time in the html of the page
         countdown: function () {
             play.counter--
             $("#timer").html(play.counter)
+
+            // ends the game if counter reaches to zero or less than zero
             if (play.counter <= 0) {
-                console.log("Game Over!")
-                play.done()
+                // console.log("Game Over!")
+                play.endGame()
+            }
+        },
+    
+        startGame: function () {
+            // initiates the timer and displays the running time in the display
+            timer = setInterval(play.countdown, 1000)
+            $("#timer").html('<h2> Time Remaining: <span id = "counter"> 120 </span> Seconds </h2>')
+
+            // removes the Start button
+            $(".buttonSection").remove()
+
+            // does a for loop of the questions array and display it in the html
+            for (var i = 0; i < questions.length; i++) {
+                $("#questSection").append("<h5 class = 'card-title'> " + questions[i].question + " </h5>")
+                
+                // does a for loop of the choices related to the questions array and display it in the html
+                for (var j = 0; j < questions[i].choices.length; j++) {
+                    $("#questSection").append("<input type = 'radio' name = 'choices-" + i + "' value = '" + questions[i].choices[j] + "'>" + questions[i].choices[j])
+                }
             }
         },
 
-        startGame: function () {
-            timer = setInterval(play.countdown, 1000)
-            $("#timer").append('<h2> Time Remaining: <span id = "counter"> 120 </span> Seconds </h2>')
-            $(".buttonSection").remove()
-            for (var i = 0; i < questions.length; i++) {
-                $("#questSection").append("<h5 class = 'card-title'> " + questions[i].question + " </h5>")
-                for (var j = 0; j < questions[i].choices.length; j++) {
-                    $("#questSection").append("<input type = 'radio' name = 'choices-" + i + "' value = '" + questions[i].choices[j] + "'>" + questions[i].choices[j] + "<br>")
+        // validates the responded answers against the correct answer
+        // increments correct answers
+        // increments incorrect answers
+        endGame: function(){
+            $.each($('input[name = "choices-0]":checked'),function(){
+                if ($(this).val() == questions[0].answer){
+                    play.correct++
+                    console.log(correct)
+                } 
+                else{
+                    play.incorrect++
                 }
-            }
+            })
+            $.each($('input[name = "choices-1]": checked'),function(){
+                if ($(this).val() == questions[1].answer){
+                    play.correct++
+                } 
+                else{
+                    play.incorrect++
+                }
+            })
+            $.each($('input[name = "choices-2]": checked'),function(){
+                if ($(this).val() == questions[2].answer){
+                    play.correct++
+                } 
+                else{
+                    play.incorrect++
+                }
+            })
+            $.each($('input[name = "choices-3]": checked'),function(){
+                if ($(this).val() == questions[3].answer){
+                    play.correct++
+                } 
+                else{
+                    play.incorrect++
+                }
+            })
+            $.each($('input[name = "choices-4]": checked'),function(){
+                if ($(this).val() == questions[4].answer){
+                    play.correct++
+                } 
+                else{
+                    play.incorrect++
+                }
+            })
+            $.each($('input[name = "choices-5]": checked'),function(){
+                if ($(this).val() == questions[5].answer){
+                    play.correct++
+                } 
+                else{
+                    play.incorrect++
+                }
+            })
+            $.each($('input[name = "choices-6]": checked'),function(){
+                if ($(this).val() == questions[6].answer){
+                    play.correct++
+                } 
+                else{
+                    play.incorrect++
+                }
+            })
+            $.each($('input[name = "choices-7]": checked'),function(){
+                if ($(this).val() == questions[7].answer){
+                    play.correct++
+                } 
+                else{
+                    play.incorrect++
+                }
+            })
+            $.each($('input[name = "choices-8]": checked'),function(){
+                if ($(this).val() == questions[8].answer){
+                    play.correct++
+                } 
+                else{
+                    play.incorrect++
+                }
+            })
+            $.each($('input[name = "choices-9]": checked'),function(){
+                if ($(this).val() == questions[9].answer){
+                    play.correct++
+                } 
+                else{
+                    play.incorrect++
+                }
+            })
+
+            this.result()
+        },
+        
+        result: function(){
+            clearInterval(timer)
+            $("#questSection").remove()
+            $("#choicesSection").remove()
+
+            $("#questSection").html("<h2> Thank you for participating in our Trivia Game! </h2>")
+            $("#choicesSection").append("<h3> Correct Answers: " + this.correct + " </h3>")
+            $("#choicesSection").append("<h3> Incorrect Answers: " + this.incorrect + " </h3>")
+            $("#choicesSection").append("<h3> Unanswered Questions: " + (questions.length - (this.incorrect+this.correct)) + " </h3>")
         }
     }
 
