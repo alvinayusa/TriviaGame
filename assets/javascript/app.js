@@ -70,13 +70,14 @@ $(document).ready(function () {
     // click a button to start a Game
     $("#startGame").on("click", function () {
         play.startGame()
+
     })
 
     var play = {
         correct: 0,
         incorrect: 0,
-        counter: 2000,
-        
+        counter: 20,
+
         // displays the time in the html of the page
         countdown: function () {
             play.counter--
@@ -84,11 +85,11 @@ $(document).ready(function () {
 
             // ends the game if counter reaches to zero or less than zero
             if (play.counter <= 0) {
-                // console.log("Game Over!")
-                play.endGame()
+                clearInterval(timer)
+                play.endGame()  //eto problema--endGame calls endResult
             }
         },
-    
+
         startGame: function () {
             // initiates the timer and displays the running time in the display
             timer = setInterval(play.countdown, 1000)
@@ -100,7 +101,7 @@ $(document).ready(function () {
             // does a for loop of the questions array and display it in the html
             for (var i = 0; i < questions.length; i++) {
                 $("#questSection").append("<h5 class = 'card-title'> " + questions[i].question + " </h5>")
-                
+
                 // does a for loop of the choices related to the questions array and display it in the html
                 for (var j = 0; j < questions[i].choices.length; j++) {
                     $("#questSection").append("<input type = 'radio' name = 'choices-" + i + "' value = '" + questions[i].choices[j] + "'>" + questions[i].choices[j])
@@ -108,140 +109,139 @@ $(document).ready(function () {
             }
         },
 
-        // validates the responded answers against the correct answer
-        // increments correct answers
-        // increments incorrect answers
-        endGame: function(){
-            $.each($('input[name = "choices-0]":checked'),function(){
-                if ($(this).val() == questions[0].answer){
-                    play.correct++
-                    console.log(correct)
-                } 
-                else{
-                    play.incorrect++
-                }
-            })
-            $.each($('input[name = "choices-1]": checked'),function(){
-                if ($(this).val() == questions[1].answer){
-                    play.correct++
-                } 
-                else{
-                    play.incorrect++
-                }
-            })
-            $.each($('input[name = "choices-2]": checked'),function(){
-                if ($(this).val() == questions[2].answer){
-                    play.correct++
-                } 
-                else{
-                    play.incorrect++
-                }
-            })
-            $.each($('input[name = "choices-3]": checked'),function(){
-                if ($(this).val() == questions[3].answer){
-                    play.correct++
-                } 
-                else{
-                    play.incorrect++
-                }
-            })
-            $.each($('input[name = "choices-4]": checked'),function(){
-                if ($(this).val() == questions[4].answer){
-                    play.correct++
-                } 
-                else{
-                    play.incorrect++
-                }
-            })
-            $.each($('input[name = "choices-5]": checked'),function(){
-                if ($(this).val() == questions[5].answer){
-                    play.correct++
-                } 
-                else{
-                    play.incorrect++
-                }
-            })
-            $.each($('input[name = "choices-6]": checked'),function(){
-                if ($(this).val() == questions[6].answer){
-                    play.correct++
-                } 
-                else{
-                    play.incorrect++
-                }
-            })
-            $.each($('input[name = "choices-7]": checked'),function(){
-                if ($(this).val() == questions[7].answer){
-                    play.correct++
-                } 
-                else{
-                    play.incorrect++
-                }
-            })
-            $.each($('input[name = "choices-8]": checked'),function(){
-                if ($(this).val() == questions[8].answer){
-                    play.correct++
-                } 
-                else{
-                    play.incorrect++
-                }
-            })
-            $.each($('input[name = "choices-9]": checked'),function(){
-                if ($(this).val() == questions[9].answer){
-                    play.correct++
-                } 
-                else{
-                    play.incorrect++
-                }
-            })
+        // at the end of the game, it will show the tally of correct, incorrect and unanswered answers
 
-            this.result()
-        },
-        
-        result: function(){
+        // at the end of the game, show a button to start over the game. starting over the game should not refresh the page.
+        result: function () {
             clearInterval(timer)
-            $("#questSection").remove()
-            $("#choicesSection").remove()
+            $("#questSection").hide()
+            $("#choicesSection").hide()
+            $("#questSection").show()
+            $("#choicesSection").show()
+
 
             $("#questSection").html("<h2> Thank you for participating in our Trivia Game! </h2>")
             $("#choicesSection").append("<h3> Correct Answers: " + this.correct + " </h3>")
             $("#choicesSection").append("<h3> Incorrect Answers: " + this.incorrect + " </h3>")
-            $("#choicesSection").append("<h3> Unanswered Questions: " + (questions.length - (this.incorrect+this.correct)) + " </h3>")
+            $("#choicesSection").append("<h3> Unanswered Questions: " + (questions.length - (this.incorrect + this.correct)) + " </h3>")
+        },
+
+        // validates the responded answers against the correct answer
+        // increments correct answers
+        // increments incorrect answers
+        endGame: function () {
+            // for (var i = 0; i < 10; i++) {
+            //     $.each($('input[name = "choices-0]":checked'), function () {
+            //         if ($(this).val() === questions[0].answer) {
+            //             play.correct++
+            //             alert("correct")
+            //         }
+            //         else {
+            //             play.incorrect++
+            //             alert("mali")
+            //         }
+            play.result()
         }
+
+        // -------- THIS IS THE SECTION I CANNOT MAKE IT WORK ----------
+
+        /* $.each($('input[name = "choices-0]":checked'),function(){
+            if ($(this).val() === questions[0].answer){
+                play.correct++
+                console.log(correct)
+            } 
+            else{
+                play.incorrect++
+            }
+        })
+        $.each($('input[name = "choices-1]": checked'),function(){
+            if ($(this).val() === questions[1].answer){
+                play.correct++
+            } 
+            else{
+                play.incorrect++
+            }
+        })
+        $.each($('input[name = "choices-2]": checked'),function(){
+            if ($(this).val() === questions[2].answer){
+                play.correct++
+            } 
+            else{
+                play.incorrect++
+            }
+        })
+        $.each($('input[name = "choices-3]": checked'),function(){
+            if ($(this).val() === questions[3].answer){
+                play.correct++
+            } 
+            else{
+                play.incorrect++
+            }
+        })
+        $.each($('input[name = "choices-4]": checked'),function(){
+            if ($(this).val() == questions[4].answer){
+                play.correct++
+            } 
+            else{
+                play.incorrect++
+            }
+        })
+        $.each($('input[name = "choices-5]": checked'),function(){
+            if ($(this).val() === questions[5].answer){
+                play.correct++
+            } 
+            else{
+                play.incorrect++
+            }
+        })
+        $.each($('input[name = "choices-6]": checked'),function(){
+            if ($(this).val() === questions[6].answer){
+                play.correct++
+            } 
+            else{
+                play.incorrect++
+            }
+        })
+        $.each($('input[name = "choices-7]": checked'),function(){
+            if ($(this).val() === questions[7].answer){
+                play.correct++
+            } 
+            else{
+                play.incorrect++
+            }
+        })
+        $.each($('input[name = "choices-8]": checked'),function(){
+            if ($(this).val() === questions[8].answer){
+                play.correct++
+            } 
+            else{
+                play.incorrect++
+            }
+        })
+        $.each($('input[name = "choices-9]": checked'),function(){
+            if ($(this).val() == questions[9].answer){
+                play.correct++
+            } 
+            else{
+                play.incorrect++
+            }
+        })*/
+        // -------- END OF SECTION THAT IS NOT WORKING ----------
+
     }
 
-    // list of global variables for tracking of scores
-
-    // end of global variables for tracking scores
-
-    // Display my question in the question section one question at a time.
-
-    // Display the list of answers on the screen using for loop.
+}) // end of document.ready function
 
 
-    // click next question button to go to next trivia question
-    // function nextQuestion (){
-    //     $("#nextQuestion").on("click", function(){
-    //         playGame()
-    //     })
-    // }
 
-    // a timer per question is presented
+        
 
-    // only one of the possible answers can be chosen
-
-    // if answer is correct, inform the user that it was correct, give the trivia section and add to the correct tally.
-
-    // if it is the wrong answer, inform the user that it was wrong, give the trivia section and add to the wrong tally.
-
-    // if the user does not make any input, ie, mouse click or key press, it will do the following:
-    // - it will inform the user no input was entered in.
-    // - it will show the correct answer
-    // - it will move to the next question
-
-    // at the end of the game, it will show the tally of correct, incorrect and unanswered answers
-    // at the end of the game, there will be no more timer to display
-    // at the end of the game, show a button to start over the game. starting over the game should not refresh the page.
+        
 
 
-    // end of document.ready function
-})
+
+        
+
+
+        
+ 
