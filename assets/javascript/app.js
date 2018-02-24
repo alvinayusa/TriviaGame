@@ -86,7 +86,7 @@ $(document).ready(function () {
             // ends the game if counter reaches to zero or less than zero
             if (play.counter <= 0) {
                 clearInterval(timer)
-                play.endGame()  //eto problema--endGame calls endResult
+                play.endGame()  
             }
         },
 
